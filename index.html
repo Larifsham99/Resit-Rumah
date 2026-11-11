@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>e-Pondok MMF - Pengurusan Rumah Pondok</title>
+    <title>e-Dokumen MMF - Sistem Pengurusan Resit & Pondok</title>
     
     <!-- Meta Tag PWA Penuh -->
     <meta name="theme-color" content="#0A192F">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="e-Pondok MMF">
-    <meta name="description" content="Sistem Pengesahan Bayaran Lengkap Rumah Pondok Madrasah Misbah Al-Falah">
+    <meta name="apple-mobile-web-app-title" content="e-Dokumen MMF">
+    <meta name="description" content="Sistem Pengurusan Surat Rumah Pondok & Resit Rasmi Madrasah Misbah Al-Falah">
     
-    <!-- Ikon PWA & Manifest Dinamik (Dijana melalui JS) -->
+    <!-- Ikon PWA & Manifest Dinamik -->
     <link rel="icon" id="appFavicon" type="image/png">
     <link rel="apple-touch-icon" id="appleTouchIcon">
     <link rel="manifest" id="pwaManifest">
@@ -20,7 +20,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Pustaka PDF Rasmi (Serasi TrebEdit & Chrome Android) -->
+    <!-- Pustaka PDF Rasmi -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -106,7 +106,7 @@
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-800 pb-16 select-none sm:select-auto">
 
-    <!-- NAVBAR UTAMA & BUTANG INSTALL PWA -->
+    <!-- NAVBAR UTAMA -->
     <header class="bg-royalnavy text-white shadow-lg sticky top-0 z-40 no-print border-b-2 border-antiquegold">
         <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center justify-between w-full sm:w-auto">
@@ -116,89 +116,101 @@
                     </div>
                     <div>
                         <h1 class="font-bold text-base sm:text-lg tracking-wide text-white leading-tight">MADRASAH MISBAH AL-FALAH</h1>
-                        <p class="text-xs text-antiquegold font-medium">Sistem Pengesahan Bayaran Rumah Pondok</p>
+                        <p class="text-xs text-antiquegold font-medium">Sistem Pengurusan Rumah Pondok & Resit Rasmi</p>
                     </div>
                 </div>
 
-                <!-- Butang Install Aplikasi (Muncul automatik apabila sedia) -->
+                <!-- Butang Install PWA -->
                 <button id="btnInstallPWA" onclick="installPWA()" class="hidden bg-antiquegold text-royalnavy font-bold text-xs px-3 py-2 rounded-xl shadow-md hover:bg-goldhover transition items-center gap-1.5 animate-pulse">
                     <i class="fas fa-download"></i> Install App
                 </button>
             </div>
 
-            <!-- Navigasi Tab -->
-            <div class="flex bg-navylight p-1 rounded-xl border border-slate-700 w-full sm:w-auto">
-                <button onclick="switchTab('borang')" id="tabBtn-borang" class="flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-emeraldgreen text-white shadow">
-                    <i class="fas fa-file-signature"></i> Borang & Jana
+            <!-- Navigasi Tab Utama -->
+            <div class="flex bg-navylight p-1 rounded-xl border border-slate-700 w-full sm:w-auto overflow-x-auto">
+                <button onclick="switchTab('pondok')" id="tabBtn-pondok" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-emeraldgreen text-white shadow whitespace-nowrap">
+                    <i class="fas fa-home"></i> Surat Pondok
                 </button>
-                <button onclick="switchTab('rekod')" id="tabBtn-rekod" class="flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white">
-                    <i class="fas fa-folder-open"></i> Senarai Rekod <span id="badgeCount" class="bg-antiquegold text-royalnavy text-[10px] font-bold px-1.5 py-0.2 rounded-full ml-1">0</span>
+                <button onclick="switchTab('resit')" id="tabBtn-resit" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white whitespace-nowrap">
+                    <i class="fas fa-receipt"></i> Resit Rasmi
                 </button>
-                <button onclick="switchTab('tetapan')" id="tabBtn-tetapan" class="flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white">
-                    <i class="fas fa-cog"></i> Tetapan Aset
+                <button onclick="switchTab('rekod')" id="tabBtn-rekod" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white whitespace-nowrap">
+                    <i class="fas fa-folder-open"></i> Rekod <span id="badgeCount" class="bg-antiquegold text-royalnavy text-[10px] font-bold px-1.5 py-0.2 rounded-full">0</span>
+                </button>
+                <button onclick="switchTab('tetapan')" id="tabBtn-tetapan" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white whitespace-nowrap">
+                    <i class="fas fa-cog"></i> Aset
                 </button>
             </div>
         </div>
     </header>
 
     <!-- KONTENA UTAMA ADMIN -->
-    <main class="max-w-5xl mx-auto px-4 pt-6 no-print">
+    <main class="max-w-5xl mx-auto px-4 pt-5 no-print">
 
         <!-- KAD STATISTIK RINGKAS -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-blue-50 text-royalnavy flex items-center justify-center text-lg font-bold">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-royalnavy flex items-center justify-center text-base font-bold">
                     <i class="fas fa-home text-antiquegold"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500 font-medium">Jumlah Rumah</p>
-                    <p class="text-lg sm:text-xl font-bold text-royalnavy" id="statTotalRumah">0 Buah</p>
+                    <p class="text-[11px] text-slate-500 font-medium">Rumah Pondok</p>
+                    <p class="text-base sm:text-lg font-bold text-royalnavy" id="statTotalRumah">0 Buah</p>
                 </div>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emeraldgreen flex items-center justify-center text-lg font-bold">
+            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-base font-bold">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div>
+                    <p class="text-[11px] text-slate-500 font-medium">Resit Rasmi</p>
+                    <p class="text-base sm:text-lg font-bold text-purple-800" id="statTotalResit">0 Resit</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emeraldgreen flex items-center justify-center text-base font-bold">
                     <i class="fas fa-coins"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500 font-medium">Jumlah Kutipan</p>
-                    <p class="text-lg sm:text-xl font-bold text-emerald-700" id="statTotalKutipan">RM 0</p>
+                    <p class="text-[11px] text-slate-500 font-medium">Jumlah Keseluruhan</p>
+                    <p class="text-base sm:text-lg font-bold text-emerald-700" id="statTotalKutipan">RM 0</p>
                 </div>
             </div>
 
-            <div class="col-span-2 sm:col-span-1 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-xl bg-amber-50 text-antiquegold flex items-center justify-center text-lg font-bold">
+            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-antiquegold flex items-center justify-center text-base font-bold">
                         <i class="fas fa-image"></i>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 font-medium">Status Aset Cetakan</p>
-                        <p class="text-xs font-bold text-slate-700 mt-0.5" id="statAssetStatus">Memeriksa...</p>
+                        <p class="text-[11px] text-slate-500 font-medium">Aset Cetakan</p>
+                        <p class="text-xs font-bold text-slate-700" id="statAssetStatus">Memeriksa...</p>
                     </div>
                 </div>
                 <button onclick="switchTab('tetapan')" class="text-xs text-royalnavy underline font-semibold">Urus</button>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- TAB 1: BORANG INPUT & JANA SURAT           -->
-        <!-- ========================================== -->
-        <section id="tab-borang" class="space-y-6">
+        <!-- ======================================================= -->
+        <!-- TAB 1: BORANG SURAT PENGESAHAN RUMAH PONDOK             -->
+        <!-- ======================================================= -->
+        <section id="tab-pondok" class="space-y-6">
             <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-200">
-                <div class="bg-royalnavy text-white px-6 py-3.5 flex items-center justify-between">
+                <div class="bg-royalnavy text-white px-5 py-3.5 flex items-center justify-between">
                     <h2 class="font-bold text-sm sm:text-base flex items-center gap-2">
-                        <i class="fas fa-edit text-antiquegold"></i>
-                        <span id="formModeTitle">Borang Pengesahan Bayaran Baharu</span>
+                        <i class="fas fa-home text-antiquegold"></i>
+                        <span id="formModeTitlePondok">Borang Pengesahan Bayaran Rumah Pondok</span>
                     </h2>
-                    <button type="button" onclick="resetBorang(false)" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-lg transition">
-                        <i class="fas fa-eraser mr-1"></i> Kosongkan Borang
+                    <button type="button" onclick="resetBorangPondok(false)" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-lg transition">
+                        <i class="fas fa-eraser mr-1"></i> Kosongkan
                     </button>
                 </div>
 
                 <form id="suratForm" class="p-5 sm:p-6 space-y-6">
                     <input type="hidden" id="editRecordId" value="">
 
-                    <!-- Maklumat Rumah & Jumlah Langsung -->
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
                         <div>
                             <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nombor Rumah Pondok *</label>
@@ -207,14 +219,13 @@
                         </div>
                         <div class="bg-royalnavy text-white p-3.5 rounded-xl flex items-center justify-between border-l-4 border-antiquegold">
                             <div>
-                                <p class="text-[11px] text-slate-300 uppercase">Jumlah Bayaran Semasa</p>
+                                <p class="text-[11px] text-slate-300 uppercase">Jumlah Bayaran Rumah</p>
                                 <p class="text-xl font-bold text-antiquegold">RM <span id="liveTotalDisplay">0</span></p>
                             </div>
                             <i class="fas fa-calculator text-2xl text-slate-500"></i>
                         </div>
                     </div>
 
-                    <!-- Maklumat Pembeli & Penjual -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                             <h3 class="text-sm font-bold text-royalnavy border-b border-slate-200 pb-2 flex items-center gap-2">
@@ -251,90 +262,188 @@
                         </div>
                     </div>
 
-                    <!-- Rekod Bayaran Dinamik -->
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                         <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
                             <h3 class="text-sm font-bold text-royalnavy flex items-center gap-2">
-                                <i class="fas fa-list-ol text-emeraldgreen"></i> Senarai Transaksi Bayaran
+                                <i class="fas fa-list-ol text-emeraldgreen"></i> Senarai Transaksi Bayaran Rumah
                             </h3>
                             <button type="button" onclick="addPaymentRow()" class="text-xs bg-antiquegold text-royalnavy font-bold px-3 py-1.5 rounded-lg hover:bg-goldhover transition shadow-sm flex items-center gap-1">
                                 <i class="fas fa-plus"></i> Tambah Bayaran
                             </button>
                         </div>
-                        <div id="paymentContainer" class="space-y-2.5">
-                            <!-- Dijana oleh JS -->
-                        </div>
+                        <div id="paymentContainer" class="space-y-2.5"></div>
                     </div>
 
-                    <!-- Butang Utama Jana & Simpan -->
                     <div class="flex flex-col sm:flex-row gap-3 justify-end pt-2">
-                        <button type="button" onclick="generateSurat(true)" class="bg-emeraldgreen text-white font-bold py-3 px-6 rounded-xl hover:bg-emeraldhover transition shadow-md flex items-center justify-center gap-2">
-                            <i class="fas fa-save"></i> Simpan Rekod & Jana Surat
-                        </button>
-                    </div>
-
-                    <!-- Panel Tindakan Selepas Jana -->
-                    <div id="btnActionGroup" class="hidden grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-200">
-                        <button type="button" onclick="downloadPDF()" id="btnDownload" class="bg-royalnavy text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-navylight transition shadow flex justify-center items-center gap-2">
-                            <i class="fas fa-file-pdf text-antiquegold"></i> Muat Turun PDF
-                        </button>
-                        <button type="button" onclick="shareWhatsApp()" id="btnWhatsapp" class="bg-green-600 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-green-700 transition shadow flex justify-center items-center gap-2">
-                            <i class="fab fa-whatsapp text-lg"></i> Share WhatsApp
-                        </button>
-                        <button type="button" onclick="cetakTerus()" class="bg-slate-600 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-slate-700 transition shadow flex justify-center items-center gap-2">
-                            <i class="fas fa-print"></i> Cetak Terus
-                        </button>
-                        <button type="button" onclick="resetBorang(true)" class="bg-antiquegold text-royalnavy text-xs sm:text-sm font-bold py-2.5 px-4 rounded-xl hover:bg-goldhover transition shadow flex justify-center items-center gap-2">
-                            <i class="fas fa-plus-circle"></i> Resit Baharu
+                        <button type="button" onclick="generateSuratPondok(true)" class="bg-emeraldgreen text-white font-bold py-3 px-6 rounded-xl hover:bg-emeraldhover transition shadow-md flex items-center justify-center gap-2">
+                            <i class="fas fa-save"></i> Simpan & Jana Surat Pondok
                         </button>
                     </div>
                 </form>
             </div>
         </section>
 
-        <!-- ========================================== -->
-        <!-- TAB 2: SENARAI REKOD TERSIMPAN             -->
-        <!-- ========================================== -->
+        <!-- ======================================================= -->
+        <!-- TAB 2: BORANG RESIT RASMI PENERIMAAN WANG (BAHARU)      -->
+        <!-- ======================================================= -->
+        <section id="tab-resit" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-200">
+                <div class="bg-royalnavy text-white px-5 py-3.5 flex items-center justify-between">
+                    <h2 class="font-bold text-sm sm:text-base flex items-center gap-2">
+                        <i class="fas fa-receipt text-antiquegold"></i>
+                        <span id="formModeTitleResit">Borang Resit Rasmi Penerimaan Wang</span>
+                    </h2>
+                    <button type="button" onclick="resetBorangResit(false)" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-lg transition">
+                        <i class="fas fa-eraser mr-1"></i> Kosongkan
+                    </button>
+                </div>
+
+                <form id="resitForm" class="p-5 sm:p-6 space-y-6">
+                    <input type="hidden" id="editResitId" value="">
+
+                    <!-- Maklumat Asas Resit -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="md:col-span-1">
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">No. Resit *</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="resitNo" required placeholder="Cth: MMF-001"
+                                    class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold uppercase focus:ring-2 focus:ring-emeraldgreen outline-none bg-white">
+                                <button type="button" onclick="setAutoReceiptNo()" title="Jana No Automatik" class="bg-royalnavy text-antiquegold px-3 rounded-xl text-xs font-bold hover:bg-navylight">
+                                    Auto
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-1">
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tarikh Resit *</label>
+                            <input type="date" id="resitDate" required
+                                class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-semibold uppercase focus:ring-2 focus:ring-emeraldgreen outline-none bg-white">
+                        </div>
+
+                        <div class="md:col-span-1">
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Jumlah Keseluruhan (RM) *</label>
+                            <input type="number" step="0.01" id="resitTotalAmount" oninput="onResitAmountChange()" placeholder="Contoh: 9000" required
+                                class="w-full rounded-xl border border-emerald-500 px-3.5 py-2 text-base font-bold text-emerald-700 focus:ring-2 focus:ring-emeraldgreen outline-none bg-emerald-50/40">
+                        </div>
+                    </div>
+
+                    <!-- Maklumat Pembayar & Ejaan Ringgit -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Diterima Daripada *</label>
+                            <input type="text" id="resitFrom" placeholder="Masukkan nama penyumbang / pembayar..." required
+                                class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold uppercase focus:ring-2 focus:ring-emeraldgreen outline-none bg-white">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-bold uppercase text-slate-600">Ringgit Malaysia (Dalam Perkataan) *</label>
+                                <span class="text-[11px] text-emerald-600 font-semibold"><i class="fas fa-magic"></i> Dijana automatik & boleh diedit</span>
+                            </div>
+                            <input type="text" id="resitAmountWords" placeholder="Contoh: Sembilan Ribu Sahaja" required
+                                class="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-emeraldgreen outline-none bg-white">
+                        </div>
+                    </div>
+
+                    <!-- Senarai Tujuan / Butiran Bayaran -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-2.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-royalnavy flex items-center gap-2">
+                                    <i class="fas fa-clipboard-list text-emeraldgreen"></i> Tujuan / Butiran Bayaran
+                                </h3>
+                                <p class="text-[11px] text-slate-500">Masukkan senarai tujuan bayaran. Amaun (RM) pada setiap baris adalah pilihan.</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="loadPresetSolarMeter()" class="text-xs bg-blue-100 text-royalnavy font-semibold px-3 py-1.5 rounded-lg hover:bg-blue-200 transition flex items-center gap-1">
+                                    <i class="fas fa-bolt text-amber-500"></i> Isi Preset Solar & Meter
+                                </button>
+                                <button type="button" onclick="addResitPurposeRow()" class="text-xs bg-antiquegold text-royalnavy font-bold px-3 py-1.5 rounded-lg hover:bg-goldhover transition shadow-sm flex items-center gap-1">
+                                    <i class="fas fa-plus"></i> Tambah Tujuan
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="resitPurposeContainer" class="space-y-2.5">
+                            <!-- Dijana oleh JS -->
+                        </div>
+                    </div>
+
+                    <!-- Butang Simpan & Jana Resit Rasmi -->
+                    <div class="flex flex-col sm:flex-row gap-3 justify-end pt-2">
+                        <button type="button" onclick="generateResitRasmi(true)" class="bg-emeraldgreen text-white font-bold py-3 px-6 rounded-xl hover:bg-emeraldhover transition shadow-md flex items-center justify-center gap-2">
+                            <i class="fas fa-save"></i> Simpan & Jana Resit Rasmi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ======================================================= -->
+        <!-- PANEL BUTANG TINDAKAN PDF / WHATSAPP (DIKONGSI BERSAMA) -->
+        <!-- ======================================================= -->
+        <div id="btnActionGroup" class="hidden bg-white p-4 rounded-2xl shadow-md border border-slate-200 mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button type="button" onclick="downloadPDF()" id="btnDownload" class="bg-royalnavy text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-navylight transition shadow flex justify-center items-center gap-2">
+                <i class="fas fa-file-pdf text-antiquegold"></i> Muat Turun PDF
+            </button>
+            <button type="button" onclick="shareWhatsApp()" id="btnWhatsapp" class="bg-green-600 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-green-700 transition shadow flex justify-center items-center gap-2">
+                <i class="fab fa-whatsapp text-lg"></i> Share WhatsApp
+            </button>
+            <button type="button" onclick="cetakTerus()" class="bg-slate-600 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl hover:bg-slate-700 transition shadow flex justify-center items-center gap-2">
+                <i class="fas fa-print"></i> Cetak Terus
+            </button>
+            <button type="button" onclick="buatDokumenBaharu()" class="bg-antiquegold text-royalnavy text-xs sm:text-sm font-bold py-2.5 px-4 rounded-xl hover:bg-goldhover transition shadow flex justify-center items-center gap-2">
+                <i class="fas fa-plus-circle"></i> Buat Baharu
+            </button>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- TAB 3: SENARAI REKOD TERSIMPAN (PONDOK & RESIT RASMI)   -->
+        <!-- ======================================================= -->
         <section id="tab-rekod" class="hidden space-y-4">
             <div class="bg-white rounded-2xl shadow-md p-5 border border-slate-200">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 pb-3 border-b border-slate-200">
                     <div>
                         <h2 class="font-bold text-base text-royalnavy flex items-center gap-2">
-                            <i class="fas fa-database text-antiquegold"></i> Pangkalan Data Resit Rumah Pondok
+                            <i class="fas fa-database text-antiquegold"></i> Pangkalan Data Semua Dokumen
                         </h2>
-                        <p class="text-xs text-slate-500">Klik "Buka / Jana" untuk melihat semula PDF atau mengemas kini bayaran.</p>
+                        <p class="text-xs text-slate-500">Senarai Surat Pengesahan Rumah Pondok dan Resit Rasmi Penerimaan Wang.</p>
                     </div>
-                    <div class="w-full sm:w-64 relative">
-                        <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                        <input type="text" id="searchInput" oninput="renderRecordsList()" placeholder="Cari No. Rumah / Nama..." 
-                            class="w-full pl-9 pr-3 py-1.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emeraldgreen outline-none">
+                    <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                        <select id="filterDocType" onchange="renderRecordsList()" class="text-xs border border-slate-300 rounded-xl px-3 py-2 bg-slate-50 font-semibold text-royalnavy outline-none">
+                            <option value="ALL">Semua Dokumen</option>
+                            <option value="PONDOK">Surat Rumah Pondok</option>
+                            <option value="RESIT">Resit Rasmi</option>
+                        </select>
+                        <div class="w-full sm:w-60 relative">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                            <input type="text" id="searchInput" oninput="renderRecordsList()" placeholder="Cari Nama / No..." 
+                                class="w-full pl-9 pr-3 py-1.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emeraldgreen outline-none">
+                        </div>
                     </div>
                 </div>
 
-                <div id="recordsListContainer" class="space-y-3">
-                    <!-- Senarai rekod dijana secara dinamik -->
-                </div>
+                <div id="recordsListContainer" class="space-y-3"></div>
             </div>
         </section>
 
-        <!-- ========================================== -->
-        <!-- TAB 3: TETAPAN ASET & SANDARAN DATA        -->
-        <!-- ========================================== -->
+        <!-- ======================================================= -->
+        <!-- TAB 4: TETAPAN ASET & SANDARAN DATA                     -->
+        <!-- ======================================================= -->
         <section id="tab-tetapan" class="hidden space-y-6">
             <div class="bg-white rounded-2xl shadow-md p-5 border border-slate-200 space-y-5">
                 <div class="border-b border-slate-200 pb-3">
                     <h2 class="font-bold text-base text-royalnavy flex items-center gap-2">
                         <i class="fas fa-sliders-h text-antiquegold"></i> Tetapan Kekal Imej (Letterhead & Tandatangan)
                     </h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Imej yang dimuat naik di sini akan disimpan secara kekal di dalam aplikasi ini supaya anda tidak perlu memuat naik berulang kali.</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Imej yang dimuat naik di sini dikongsi secara automatik oleh kedua-dua Surat Rumah Pondok dan Resit Rasmi.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Kotak Letterhead -->
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
                         <div>
                             <label class="block text-sm font-bold text-royalnavy mb-1">1. Bingkai Letterhead A4</label>
-                            <p class="text-xs text-slate-500 mb-3">Digunakan sebagai latar belakang penuh kertas A4.</p>
+                            <p class="text-xs text-slate-500 mb-3">Digunakan sebagai latar belakang penuh kertas A4 untuk semua dokumen.</p>
                             <input type="file" id="letterheadUpload" accept="image/png, image/jpeg, image/webp" 
                                 class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-royalnavy file:text-white hover:file:bg-navylight cursor-pointer">
                         </div>
@@ -344,11 +453,10 @@
                         </div>
                     </div>
 
-                    <!-- Kotak Tandatangan -->
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
                         <div>
                             <label class="block text-sm font-bold text-royalnavy mb-1">2. Tandatangan Tuan Mudir</label>
-                            <p class="text-xs text-slate-500 mb-3">Sila guna imej PNG lutsinar untuk hasil yang kemas.</p>
+                            <p class="text-xs text-slate-500 mb-3">Sila guna imej PNG lutsinar untuk hasil yang kemas pada kedua-dua resit.</p>
                             <input type="file" id="sigUpload" accept="image/png, image/jpeg, image/webp" 
                                 class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-royalnavy file:text-white hover:file:bg-navylight cursor-pointer">
                         </div>
@@ -365,7 +473,7 @@
                 <h3 class="font-bold text-base text-royalnavy flex items-center gap-2 border-b border-slate-200 pb-2">
                     <i class="fas fa-shield-alt text-emeraldgreen"></i> Sandaran Data (Backup & Restore)
                 </h3>
-                <p class="text-xs text-slate-500">Eksport semua senarai rekod pembayaran kepada fail simpanan (JSON) atau muat naik semula fail sandaran sedia ada.</p>
+                <p class="text-xs text-slate-500">Eksport semua rekod Surat Pondok dan Resit Rasmi kepada fail simpanan (JSON) atau muat naik semula.</p>
                 <div class="flex flex-wrap gap-3">
                     <button type="button" onclick="exportBackupJSON()" class="bg-royalnavy text-white text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-navylight transition flex items-center gap-2">
                         <i class="fas fa-download text-antiquegold"></i> Muat Turun Fail Backup (.json)
@@ -385,7 +493,7 @@
     <!-- ================================================================= -->
     <div id="surat-wrapper" class="hidden w-full flex-col items-center px-2 pt-6 pb-12">
         
-        <!-- Bar Maklumat Preview (Disembunyikan semasa Cetak Terus) -->
+        <!-- Bar Maklumat Preview -->
         <div class="w-full max-w-[794px] bg-royalnavy text-white px-4 py-2.5 rounded-t-xl flex justify-between items-center text-xs sm:text-sm shadow no-print border-b border-antiquegold">
             <span class="font-semibold flex items-center gap-2">
                 <i class="fas fa-file-pdf text-antiquegold"></i> Preview Kertas A4 (1 Halaman Penuh)
@@ -400,19 +508,19 @@
                 <!-- KANVAS SEBENAR A4 (794px x 1123px) -->
                 <div id="surat-container" class="bg-white shadow-2xl relative print-exact overflow-hidden text-black font-formal" style="width: 794px; height: 1123px; box-sizing: border-box;">
                     
-                    <!-- LAYER 0: BINGKAI LETTERHEAD TERKUNCI -->
+                    <!-- LAYER 0: BINGKAI LETTERHEAD TERKUNCI (DIKONGSI OLEH KEDUA-DUA MOD) -->
                     <img id="outLetterheadImage" src="" class="absolute inset-0 w-full h-full object-fill hidden print-exact pointer-events-none" style="z-index: 0;" alt="Letterhead Frame">
 
-                    <!-- LAYER 1: KANDUNGAN SURAT RASMI -->
-                    <div class="relative w-full h-full flex flex-col justify-between" style="z-index: 10; padding-top: 235px; padding-bottom: 95px; padding-left: 70px; padding-right: 70px; box-sizing: border-box;">
+                    <!-- ========================================================= -->
+                    <!-- TEMPLAT A: SURAT PENGESAHAN BAYARAN RUMAH PONDOK          -->
+                    <!-- ========================================================= -->
+                    <div id="template-pondok" class="relative w-full h-full flex flex-col justify-between" style="z-index: 10; padding-top: 235px; padding-bottom: 95px; padding-left: 70px; padding-right: 70px; box-sizing: border-box;">
                         
                         <div>
-                            <!-- Tajuk -->
                             <div class="mb-3">
                                 <h2 class="uppercase text-[15px] font-normal tracking-wide text-gray-600">PENGESAHAN BAYARAN LENGKAP RUMAH PONDOK <span id="outHouseNoTitle"></span></h2>
                             </div>
 
-                            <!-- Isi Surat -->
                             <div class="text-[13.5px] leading-[1.42] text-justify space-y-2">
                                 <p>Saya yang bertandatangan di bawah ini:</p>
                                 
@@ -426,11 +534,8 @@
 
                                 <p class="pt-1">Telah melengkapkan pembayaran bagi pembelian sebuah rumah yang terletak di , Madrasah Misbah Al Falah (<span id="outHouseNoText"></span>) seperti butiran berikut:</p>
 
-                                <!-- Senarai Bayaran -->
                                 <div class="pl-6 pr-2 py-1.5">
-                                    <ul id="outPaymentList" class="list-disc font-bold ml-4 grid gap-x-6 gap-y-1 text-[13px] leading-[1.35]">
-                                        <!-- Dijana oleh JS -->
-                                    </ul>
+                                    <ul id="outPaymentList" class="list-disc font-bold ml-4 grid gap-x-6 gap-y-1 text-[13px] leading-[1.35]"></ul>
                                     <div class="mt-3 text-center font-bold text-[13.5px]">
                                         (JUMLAH BAYARAN KESELURUHAN IALAH RM <span id="outTotalAmount">0</span> )
                                     </div>
@@ -440,18 +545,15 @@
                             </div>
                         </div>
 
-                        <!-- Bahagian Bawah: Tandatangan & Ruang Cop -->
                         <div class="mt-1 flex justify-between items-end">
                             <div class="w-2/3 relative text-[13.5px] leading-[1.38]">
                                 <p>Sekian</p>
                                 <p class="mt-0.5">Yang Benar,</p>
                                 
-                                <!-- Ruang Imej Tandatangan -->
                                 <div class="h-24 w-64 flex items-end my-0.5">
-                                    <img id="outSignatureImage" src="" class="max-h-[90px] max-w-[220px] object-contain object-left-bottom print-exact hidden" alt="Tandatangan">
+                                    <img id="outSignatureImagePondok" src="" class="max-h-[90px] max-w-[220px] object-contain object-left-bottom print-exact hidden" alt="Tandatangan">
                                 </div>
                                 
-                                <!-- Tepat 30 Titik -->
                                 <p class="text-black font-bold tracking-[0.15em] mb-1">..............................</p>
                                 
                                 <p class="font-bold uppercase">Md Mukhtar Bin Omar Zuhdi</p>
@@ -462,15 +564,88 @@
                                 <div class="w-24 h-24"></div>
                             </div>
                         </div>
-
                     </div>
+
+                    <!-- ========================================================= -->
+                    <!-- TEMPLAT B: RESIT RASMI PENERIMAAN WANG (BAHARU)           -->
+                    <!-- ========================================================= -->
+                    <div id="template-resit" class="hidden relative w-full h-full flex-col justify-between" style="z-index: 10; padding-top: 235px; padding-bottom: 95px; padding-left: 70px; padding-right: 70px; box-sizing: border-box;">
+                        
+                        <div>
+                            <!-- Tajuk Utama Resit Rasmi -->
+                            <div class="text-center mb-6 border-b-2 border-black pb-2.5">
+                                <h1 class="text-[16px] font-bold uppercase tracking-wider text-black">MADRASAH MISBAH AL FALAH</h1>
+                                <h2 class="text-[15px] font-bold uppercase tracking-wide text-gray-800 mt-0.5">RESIT RASMI PENERIMAAN WANG</h2>
+                            </div>
+
+                            <!-- Maklumat Penerimaan -->
+                            <div class="text-[14px] leading-[1.6] space-y-3">
+                                <div class="flex items-baseline">
+                                    <span class="w-44 font-semibold shrink-0">Diterima daripada:</span>
+                                    <span id="outResitFrom" class="font-bold uppercase border-b border-dotted border-black flex-1 pb-0.5"></span>
+                                </div>
+
+                                <div class="flex items-baseline">
+                                    <span class="w-44 font-semibold shrink-0">Jumlah:</span>
+                                    <span class="font-bold text-[15px] bg-gray-100 px-3 py-0.5 rounded border border-gray-300 print-exact">RM<span id="outResitAmountTop">0.00</span></span>
+                                </div>
+
+                                <div class="flex items-baseline">
+                                    <span class="w-44 font-semibold shrink-0">Ringgit Malaysia:</span>
+                                    <span id="outResitWords" class="font-bold italic border-b border-dotted border-black flex-1 pb-0.5"></span>
+                                </div>
+
+                                <!-- Senarai Tujuan / Butiran Bayaran -->
+                                <div class="pt-3">
+                                    <p class="font-bold underline underline-offset-4 mb-2.5">Tujuan / Butiran Bayaran:</p>
+                                    <div class="pl-5 pr-2 py-2 bg-gray-50/70 rounded-lg border border-gray-200 print-exact min-h-[120px]">
+                                        <ol id="outResitPurposeList" class="list-decimal font-semibold ml-4 space-y-2 text-[13.5px] leading-[1.45]">
+                                            <!-- Dijana oleh JS -->
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <!-- Jumlah Keseluruhan & Meta Resit -->
+                                <div class="pt-3 flex justify-between items-center border-t-2 border-black">
+                                    <div class="space-y-1 text-[13.5px]">
+                                        <p><span class="font-semibold inline-block w-24">Tarikh:</span> <span id="outResitDate" class="font-bold"></span></p>
+                                        <p><span class="font-semibold inline-block w-24">No. Resit:</span> <span id="outResitNo" class="font-bold"></span></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[12px] uppercase font-semibold text-gray-600">Jumlah Keseluruhan</p>
+                                        <p class="text-[18px] font-bold text-black">RM<span id="outResitAmountBottom">0.00</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bahagian Bawah: Tandatangan & Cop Rasmi Madrasah -->
+                        <div class="mt-2 flex justify-between items-end">
+                            <div class="w-2/3 relative text-[13.5px] leading-[1.38]">
+                                <!-- Ruang Imej Tandatangan -->
+                                <div class="h-24 w-64 flex items-end my-0.5">
+                                    <img id="outSignatureImageResit" src="" class="max-h-[90px] max-w-[220px] object-contain object-left-bottom print-exact hidden" alt="Tandatangan">
+                                </div>
+                                
+                                <!-- Garisan Titik & Label Tandatangan -->
+                                <p class="text-black font-bold tracking-[0.15em] mb-1">..............................</p>
+                                <p class="font-bold">Tandatangan & Cop Rasmi Madrasah</p>
+                                <p class="font-bold uppercase text-[12.5px] text-gray-700 mt-0.5">Md Mukhtar Bin Omar Zuhdi (Pengetua)</p>
+                            </div>
+                            
+                            <div class="w-1/3 flex items-center justify-end pr-4">
+                                <div class="w-24 h-24"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT PENGURUSAN APLIKASI & PWA PENUH -->
+    <!-- SCRIPT PENGURUSAN APLIKASI PENUH -->
     <script>
         const STORAGE_KEYS = {
             RECORDS: 'mmf_pondok_records_v1',
@@ -488,50 +663,106 @@
         
         const bulanMelayu = ["JANUARI", "FEBRUARI", "MAC", "APRIL", "MEI", "JUN", "JULAI", "OGOS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DISEMBER"];
         
+        let currentActiveDocType = 'PONDOK'; // 'PONDOK' atau 'RESIT'
+        let currentPdfFileName = 'Dokumen_MMF.pdf';
         let paymentRowCount = 0;
+        let purposeRowCount = 0;
         let uploadedSignatureDataUrl = ""; 
         let uploadedLetterheadDataUrl = "";
         let savedRecords = [];
         let deferredInstallPrompt = null;
 
         // =========================================================================
-        // 1. PENJANA IKON & MANIFEST PWA DINAMIK (TIADA FAIL GAMBAR LUAR DIPERLUKAN)
+        // 1. PENUKAR ANGKA KE PERKATAAN BAHASA MELAYU AUTOMATIK (RINGGIT MALAYSIA)
+        // =========================================================================
+        function numberToWordsBM(num) {
+            num = parseFloat(num);
+            if (isNaN(num) || num <= 0) return "";
+
+            const satuan = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Lapan", "Sembilan", "Sepuluh", "Sebelas"];
+
+            function convertChunk(n) {
+                n = Math.floor(n);
+                if (n < 12) return satuan[n];
+                if (n < 20) return satuan[n - 10] + " Belas";
+                if (n < 100) {
+                    const puluh = Math.floor(n / 10);
+                    const baki = n % 10;
+                    return satuan[puluh] + " Puluh" + (baki > 0 ? " " + satuan[baki] : "");
+                }
+                if (n < 200) {
+                    const baki = n - 100;
+                    return "Seratus" + (baki > 0 ? " " + convertChunk(baki) : "");
+                }
+                if (n < 1000) {
+                    const ratus = Math.floor(n / 100);
+                    const baki = n % 100;
+                    return satuan[ratus] + " Ratus" + (baki > 0 ? " " + convertChunk(baki) : "");
+                }
+                if (n < 2000) {
+                    const baki = n - 1000;
+                    return "Seribu" + (baki > 0 ? " " + convertChunk(baki) : "");
+                }
+                if (n < 1000000) {
+                    const ribu = Math.floor(n / 1000);
+                    const baki = n % 1000;
+                    return convertChunk(ribu) + " Ribu" + (baki > 0 ? " " + convertChunk(baki) : "");
+                }
+                if (n < 1000000000) {
+                    const juta = Math.floor(n / 1000000);
+                    const baki = n % 1000000;
+                    return convertChunk(juta) + " Juta" + (baki > 0 ? " " + convertChunk(baki) : "");
+                }
+                return "";
+            }
+
+            const ringgit = Math.floor(num);
+            const sen = Math.round((num - ringgit) * 100);
+
+            let result = convertChunk(ringgit);
+            if (sen > 0) {
+                result += " Dan Sen " + convertChunk(sen);
+            }
+            return (result.trim() + " Sahaja").replace(/\s+/g, ' ');
+        }
+
+        function onResitAmountChange() {
+            const val = document.getElementById('resitTotalAmount').value;
+            const words = numberToWordsBM(val);
+            document.getElementById('resitAmountWords').value = words;
+        }
+
+        // =========================================================================
+        // 2. PENJANA IKON & MANIFEST PWA DINAMIK
         // =========================================================================
         function setupPWA() {
-            // Lukis ikon rasmi aplikasi (512x512) secara automatik atas Canvas
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 512;
             const ctx = canvas.getContext('2d');
 
-            // Latar Belakang Royal Navy
             ctx.fillStyle = '#0A192F';
             ctx.fillRect(0, 0, 512, 512);
 
-            // Bingkai Bulatan Emas (Antique Gold)
             ctx.strokeStyle = '#D4AF37';
             ctx.lineWidth = 18;
             ctx.strokeRect(28, 28, 456, 456);
 
-            // Lukis Kubah Masjid Emas
             ctx.fillStyle = '#D4AF37';
             ctx.beginPath();
             ctx.arc(256, 230, 95, Math.PI, 0, false);
             ctx.fill();
 
-            // Tiang Menara & Tapak Kubah
             ctx.fillRect(161, 230, 190, 22);
-            ctx.fillStyle = '#10B981'; // Aksen Emerald Green
+            ctx.fillStyle = '#10B981';
             ctx.fillRect(140, 262, 232, 14);
 
-            // Bulan Sabit / Kemuncak Kubah
             ctx.fillStyle = '#D4AF37';
             ctx.fillRect(251, 95, 10, 45);
             ctx.beginPath();
             ctx.arc(256, 90, 14, 0, Math.PI * 2);
             ctx.fill();
 
-            // Teks Singkatan "MMF" & "PONDOK"
             ctx.fillStyle = '#FFFFFF';
             ctx.font = 'bold 78px Arial';
             ctx.textAlign = 'center';
@@ -539,17 +770,16 @@
 
             ctx.fillStyle = '#D4AF37';
             ctx.font = 'bold 34px Arial';
-            ctx.fillText('e-PONDOK', 256, 425);
+            ctx.fillText('e-DOKUMEN', 256, 425);
 
             const iconDataUrl = canvas.toDataURL('image/png');
             document.getElementById('appFavicon').href = iconDataUrl;
             document.getElementById('appleTouchIcon').href = iconDataUrl;
 
-            // Bina Web App Manifest secara dinamik
             const manifestObj = {
-                name: "Sistem Pengurusan Rumah Pondok MMF",
-                short_name: "e-Pondok MMF",
-                description: "Aplikasi Rasmi Pengesahan Bayaran Lengkap Rumah Pondok Madrasah Misbah Al-Falah",
+                name: "Sistem Pengurusan Pondok & Resit MMF",
+                short_name: "e-Dokumen MMF",
+                description: "Aplikasi Rasmi Pengesahan Rumah Pondok & Resit Rasmi Madrasah Misbah Al-Falah",
                 start_url: window.location.href,
                 scope: "./",
                 display: "standalone",
@@ -565,15 +795,11 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
             document.getElementById('pwaManifest').href = URL.createObjectURL(manifestBlob);
 
-            // Daftar Service Worker (Untuk GitHub Pages / HTTPS)
             if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
-                navigator.serviceWorker.register('./sw.js').catch(err => {
-                    console.log('Info Service Worker:', err.message);
-                });
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW info:', err.message));
             }
         }
 
-        // Tangkap acara pemasangan PWA pada Android Chrome
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredInstallPrompt = e;
@@ -597,33 +823,44 @@
             setupPWA();
             loadSavedAssetsFromStorage();
             loadRecordsFromStorage();
+            
+            // Init Borang Pondok
             addPaymentRow();
+            
+            // Init Borang Resit Rasmi dengan Tarikh Hari Ini & Preset Awal
+            document.getElementById('resitDate').value = new Date().toISOString().slice(0, 10);
+            setAutoReceiptNo();
+            loadPresetSolarMeter();
+
             updateDashboardStats();
             window.addEventListener('resize', adjustPreviewScale);
         };
 
         // Navigasi Tab
         function switchTab(tabName) {
-            ['borang', 'rekod', 'tetapan'].forEach(t => {
+            ['pondok', 'resit', 'rekod', 'tetapan'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 const btn = document.getElementById(`tabBtn-${t}`);
-                btn.className = "flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white";
+                btn.className = "flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white whitespace-nowrap";
             });
 
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tabBtn-${tabName}`);
-            activeBtn.className = "flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 bg-emeraldgreen text-white shadow";
+            activeBtn.className = "flex-1 sm:flex-initial px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-emeraldgreen text-white shadow whitespace-nowrap";
 
-            if (tabName !== 'borang') {
+            if (tabName === 'rekod' || tabName === 'tetapan') {
                 document.getElementById('surat-wrapper').classList.add('hidden');
                 document.getElementById('surat-wrapper').classList.remove('flex');
+                document.getElementById('btnActionGroup').classList.add('hidden');
             }
             if (tabName === 'rekod') {
                 renderRecordsList();
             }
         }
 
-        // Pengurusan Imej Kekal (LocalStorage)
+        // =========================================================================
+        // 3. PENGURUSAN IMEJ KEKAL (LETTERHEAD & TANDATANGAN DIKONGSI BERSAMA)
+        // =========================================================================
         function loadSavedAssetsFromStorage() {
             try {
                 const savedLH = localStorage.getItem(STORAGE_KEYS.LETTERHEAD);
@@ -638,7 +875,7 @@
                     document.getElementById('sigStatus').innerHTML = `<span class="text-emerald-600 font-bold"><i class="fas fa-check-circle"></i> Tersimpan dalam memori</span>`;
                 }
             } catch (e) {
-                console.warn('Memori storan penuh atau disekat:', e);
+                console.warn('Storan disekat:', e);
             }
         }
 
@@ -689,12 +926,17 @@
         }
 
         function updateImagesInPreview() {
-            const outSig = document.getElementById('outSignatureImage');
+            const sigPondok = document.getElementById('outSignatureImagePondok');
+            const sigResit = document.getElementById('outSignatureImageResit');
+
             if (uploadedSignatureDataUrl) {
-                outSig.src = uploadedSignatureDataUrl;
-                outSig.classList.remove('hidden');
+                sigPondok.src = uploadedSignatureDataUrl;
+                sigPondok.classList.remove('hidden');
+                sigResit.src = uploadedSignatureDataUrl;
+                sigResit.classList.remove('hidden');
             } else {
-                outSig.classList.add('hidden');
+                sigPondok.classList.add('hidden');
+                sigResit.classList.add('hidden');
             }
             
             const outLH = document.getElementById('outLetterheadImage');
@@ -706,7 +948,9 @@
             }
         }
 
-        // Pengurusan Baris Bayaran & Kiraan Langsung
+        // =========================================================================
+        // 4. LOGIK BORANG 1: SURAT PENGESAHAN RUMAH PONDOK
+        // =========================================================================
         function addPaymentRow(dateVal = '', amountVal = '', noteVal = 'TF') {
             paymentRowCount++;
             const container = document.getElementById('paymentContainer');
@@ -724,7 +968,7 @@
                 </div>
                 <div class="w-full sm:w-1/5">
                     <label class="block text-[11px] font-semibold text-slate-500 mb-1">Nota</label>
-                    <input type="text" value="${noteVal}" class="pay-note w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm uppercase" value="TF">
+                    <input type="text" value="${noteVal}" class="pay-note w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm uppercase">
                 </div>
                 <button type="button" onclick="removePaymentRow('${row.id}')" class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 transition h-9 w-full sm:w-10 flex items-center justify-center">
                     <i class="fas fa-trash-alt text-xs"></i>
@@ -753,50 +997,15 @@
             return total;
         }
 
-        function formatTanggalBM(dateString) {
-            if(!dateString) return "";
-            const parts = dateString.split('-');
-            if(parts.length === 3) {
-                const tahun = parts[0];
-                const bulanIdx = parseInt(parts[1], 10) - 1;
-                const hari = parts[2];
-                return `${hari} ${bulanMelayu[bulanIdx]} ${tahun}`;
-            }
-            return dateString;
-        }
-
-        function formatWangBulat(amount) {
-            return parseFloat(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-        }
-        
-        function formatWangPenuh(amount) {
-            return parseFloat(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-
-        function adjustPreviewScale() {
-            const wrapper = document.getElementById('surat-wrapper');
-            if (wrapper.classList.contains('hidden')) return;
-
-            const holder = document.getElementById('preview-holder');
-            const scaler = document.getElementById('preview-scaler');
-            
-            const availableWidth = holder.clientWidth - 16;
-            const pageWidth = 794;
-            const pageHeight = 1123;
-
-            let scale = 1;
-            if (availableWidth < pageWidth) {
-                scale = availableWidth / pageWidth;
-            }
-
-            scaler.style.transform = `scale(${scale})`;
-            holder.style.height = `${(pageHeight * scale) + 32}px`;
-        }
-
-        // Jana Surat & Simpan ke LocalStorage
-        function generateSurat(saveToDb = true) {
+        function generateSuratPondok(saveToDb = true) {
             const form = document.getElementById('suratForm');
             if (!form.checkValidity()) { form.reportValidity(); return; }
+
+            currentActiveDocType = 'PONDOK';
+            document.getElementById('template-pondok').classList.remove('hidden');
+            document.getElementById('template-pondok').classList.add('flex');
+            document.getElementById('template-resit').classList.add('hidden');
+            document.getElementById('template-resit').classList.remove('flex');
 
             const houseNo = document.getElementById('houseNo').value.trim().toUpperCase();
             const cleanHouseNo = houseNo.replace(/\s+/g, '');
@@ -848,13 +1057,16 @@
 
             document.getElementById('outTotalAmount').textContent = formatWangBulat(totalAmount);
             document.getElementById('outTotalText').textContent = formatWangPenuh(totalAmount);
-            document.getElementById('previewFileName').textContent = `Resit Bayaran Rumah Pondok ${houseNo}.pdf`;
+            
+            currentPdfFileName = `Resit Bayaran Rumah Pondok ${houseNo}.pdf`;
+            document.getElementById('previewFileName').textContent = currentPdfFileName;
 
             updateImagesInPreview();
 
             if (saveToDb) {
                 saveRecordToStorage({
-                    id: document.getElementById('editRecordId').value || 'REC_' + Date.now(),
+                    id: document.getElementById('editRecordId').value || 'PONDOK_' + Date.now(),
+                    docType: 'PONDOK',
                     houseNo,
                     buyerName,
                     buyerIc,
@@ -867,19 +1079,201 @@
                 });
             }
 
+            showPreviewArea();
+        }
+
+        // =========================================================================
+        // 5. LOGIK BORANG 2: RESIT RASMI PENERIMAAN WANG (BAHARU)
+        // =========================================================================
+        function setAutoReceiptNo() {
+            const year = new Date().getFullYear();
+            const resitCount = savedRecords.filter(r => r.docType === 'RESIT').length + 1;
+            const padded = String(resitCount).padStart(3, '0');
+            document.getElementById('resitNo').value = `MMF-${year}-${padded}`;
+        }
+
+        function addResitPurposeRow(descVal = '', itemAmountVal = '') {
+            purposeRowCount++;
+            const container = document.getElementById('resitPurposeContainer');
+            const row = document.createElement('div');
+            row.className = 'purpose-row flex flex-col sm:flex-row gap-2.5 items-center p-2.5 bg-white border border-slate-200 rounded-xl shadow-sm';
+            row.id = `purposeRow_${purposeRowCount}`;
+            row.innerHTML = `
+                <div class="w-full sm:flex-1">
+                    <input type="text" value="${descVal}" placeholder="Contoh: Sumbangan Projek Pemasangan Lampu Solar." required
+                        class="purpose-desc w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium">
+                </div>
+                <div class="w-full sm:w-40 flex items-center gap-2">
+                    <input type="number" step="0.01" value="${itemAmountVal}" oninput="recalcResitFromItems()" placeholder="RM (Pilihan)"
+                        class="purpose-amount w-full rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-bold">
+                    <button type="button" onclick="removeResitPurposeRow('${row.id}')" class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 transition h-9 w-10 shrink-0 flex items-center justify-center">
+                        <i class="fas fa-trash-alt text-xs"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(row);
+        }
+
+        function removeResitPurposeRow(rowId) {
+            const container = document.getElementById('resitPurposeContainer');
+            if (container.children.length > 1) {
+                container.removeChild(document.getElementById(rowId));
+                recalcResitFromItems();
+            } else {
+                alert('Sekurang-kurangnya satu tujuan bayaran diperlukan.');
+            }
+        }
+
+        function recalcResitFromItems() {
+            let sum = 0;
+            let hasAnyItemAmount = false;
+            document.querySelectorAll('.purpose-amount').forEach(inp => {
+                const v = parseFloat(inp.value);
+                if (!isNaN(v) && v > 0) {
+                    sum += v;
+                    hasAnyItemAmount = true;
+                }
+            });
+            if (hasAnyItemAmount) {
+                document.getElementById('resitTotalAmount').value = sum;
+                onResitAmountChange();
+            }
+        }
+
+        function loadPresetSolarMeter() {
+            document.getElementById('resitPurposeContainer').innerHTML = '';
+            purposeRowCount = 0;
+            addResitPurposeRow('Sumbangan Projek Pemasangan Lampu Solar.', '');
+            addResitPurposeRow('Bayaran Kos Kemasukan Meter Elektrik (TNB) dan Meter Air (SADA) bagi Rumah Wakaf.', '');
+            if (!document.getElementById('resitTotalAmount').value) {
+                document.getElementById('resitTotalAmount').value = '9000';
+                onResitAmountChange();
+            }
+        }
+
+        function generateResitRasmi(saveToDb = true) {
+            const form = document.getElementById('resitForm');
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+
+            currentActiveDocType = 'RESIT';
+            document.getElementById('template-resit').classList.remove('hidden');
+            document.getElementById('template-resit').classList.add('flex');
+            document.getElementById('template-pondok').classList.add('hidden');
+            document.getElementById('template-pondok').classList.remove('flex');
+
+            const resitNo = document.getElementById('resitNo').value.trim().toUpperCase();
+            const resitDate = document.getElementById('resitDate').value;
+            const resitFrom = document.getElementById('resitFrom').value.trim().toUpperCase();
+            const totalAmount = parseFloat(document.getElementById('resitTotalAmount').value || 0);
+            const amountWords = document.getElementById('resitAmountWords').value.trim();
+
+            document.getElementById('outResitFrom').textContent = resitFrom;
+            document.getElementById('outResitAmountTop').textContent = formatWangPenuh(totalAmount);
+            document.getElementById('outResitWords').textContent = amountWords;
+            document.getElementById('outResitDate').textContent = formatTanggalBM(resitDate);
+            document.getElementById('outResitNo').textContent = resitNo;
+            document.getElementById('outResitAmountBottom').textContent = formatWangPenuh(totalAmount);
+
+            const purposeRows = document.querySelectorAll('.purpose-row');
+            const outList = document.getElementById('outResitPurposeList');
+            outList.innerHTML = '';
+            const purposesArray = [];
+
+            purposeRows.forEach(row => {
+                const desc = row.querySelector('.purpose-desc').value.trim();
+                const amt = row.querySelector('.purpose-amount').value;
+                purposesArray.push({ desc, amount: amt });
+
+                const li = document.createElement('li');
+                if (amt && parseFloat(amt) > 0) {
+                    li.innerHTML = `<div class="flex justify-between items-baseline gap-4"><span>${desc}</span><span class="font-bold shrink-0">RM${formatWangPenuh(amt)}</span></div>`;
+                } else {
+                    li.textContent = desc;
+                }
+                outList.appendChild(li);
+            });
+
+            const safeName = resitFrom.replace(/[^A-Z0-9 ]/gi, '').slice(0, 25).trim();
+            currentPdfFileName = `Resit Rasmi ${resitNo} - ${safeName}.pdf`;
+            document.getElementById('previewFileName').textContent = currentPdfFileName;
+
+            updateImagesInPreview();
+
+            if (saveToDb) {
+                saveRecordToStorage({
+                    id: document.getElementById('editResitId').value || 'RESIT_' + Date.now(),
+                    docType: 'RESIT',
+                    resitNo,
+                    resitDate,
+                    resitFrom,
+                    amountWords,
+                    purposes: purposesArray,
+                    totalAmount,
+                    updatedAt: new Date().toISOString()
+                });
+            }
+
+            showPreviewArea();
+        }
+
+        function showPreviewArea() {
             const wrapper = document.getElementById('surat-wrapper');
             wrapper.classList.remove('hidden');
             wrapper.classList.add('flex');
             document.getElementById('btnActionGroup').classList.remove('hidden');
             
             adjustPreviewScale();
-
             setTimeout(() => {
                 wrapper.scrollIntoView({ behavior: 'smooth' });
             }, 100);
         }
 
-        // Pengurusan Pangkalan Data Tempatan (CRUD Rekod)
+        // =========================================================================
+        // 6. FORMAT UTILITI & SKALA PREVIEW
+        // =========================================================================
+        function formatTanggalBM(dateString) {
+            if(!dateString) return "";
+            const parts = dateString.split('-');
+            if(parts.length === 3) {
+                const tahun = parts[0];
+                const bulanIdx = parseInt(parts[1], 10) - 1;
+                const hari = parts[2];
+                return `${hari} ${bulanMelayu[bulanIdx]} ${tahun}`;
+            }
+            return dateString;
+        }
+
+        function formatWangBulat(amount) {
+            return parseFloat(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+        
+        function formatWangPenuh(amount) {
+            return parseFloat(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function adjustPreviewScale() {
+            const wrapper = document.getElementById('surat-wrapper');
+            if (wrapper.classList.contains('hidden')) return;
+
+            const holder = document.getElementById('preview-holder');
+            const scaler = document.getElementById('preview-scaler');
+            
+            const availableWidth = holder.clientWidth - 16;
+            const pageWidth = 794;
+            const pageHeight = 1123;
+
+            let scale = 1;
+            if (availableWidth < pageWidth) {
+                scale = availableWidth / pageWidth;
+            }
+
+            scaler.style.transform = `scale(${scale})`;
+            holder.style.height = `${(pageHeight * scale) + 32}px`;
+        }
+
+        // =========================================================================
+        // 7. PANGKALAN DATA TEMPATAN (MENYOKONG KEDUA-DUA JENIS DOKUMEN)
+        // =========================================================================
         function loadRecordsFromStorage() {
             try {
                 const raw = localStorage.getItem(STORAGE_KEYS.RECORDS);
@@ -890,20 +1284,28 @@
         }
 
         function saveRecordToStorage(recordObj) {
-            const existingIdx = savedRecords.findIndex(r => r.id === recordObj.id || r.houseNo === recordObj.houseNo);
+            const existingIdx = savedRecords.findIndex(r => r.id === recordObj.id);
             if (existingIdx >= 0) {
                 savedRecords[existingIdx] = recordObj;
             } else {
                 savedRecords.unshift(recordObj);
             }
-            document.getElementById('editRecordId').value = recordObj.id;
+            if (recordObj.docType === 'RESIT') {
+                document.getElementById('editResitId').value = recordObj.id;
+            } else {
+                document.getElementById('editRecordId').value = recordObj.id;
+            }
             localStorage.setItem(STORAGE_KEYS.RECORDS, JSON.stringify(savedRecords));
             updateDashboardStats();
         }
 
         function updateDashboardStats() {
+            const pondokCount = savedRecords.filter(r => r.docType !== 'RESIT').length;
+            const resitCount = savedRecords.filter(r => r.docType === 'RESIT').length;
+
             document.getElementById('badgeCount').textContent = savedRecords.length;
-            document.getElementById('statTotalRumah').textContent = `${savedRecords.length} Buah`;
+            document.getElementById('statTotalRumah').textContent = `${pondokCount} Buah`;
+            document.getElementById('statTotalResit').textContent = `${resitCount} Resit`;
             
             const grandTotal = savedRecords.reduce((sum, r) => sum + (parseFloat(r.totalAmount) || 0), 0);
             document.getElementById('statTotalKutipan').textContent = `RM ${formatWangBulat(grandTotal)}`;
@@ -913,23 +1315,29 @@
             const statusEl = document.getElementById('statAssetStatus');
 
             if (hasLH && hasSig) {
-                statusEl.innerHTML = `<span class="text-emerald-600"><i class="fas fa-check-circle"></i> Lengkap (Sedia Cetak)</span>`;
+                statusEl.innerHTML = `<span class="text-emerald-600"><i class="fas fa-check-circle"></i> Lengkap</span>`;
             } else if (hasLH || hasSig) {
-                statusEl.innerHTML = `<span class="text-amber-600"><i class="fas fa-exclamation-circle"></i> 1 Imej Belum Dimuat Naik</span>`;
+                statusEl.innerHTML = `<span class="text-amber-600"><i class="fas fa-exclamation-circle"></i> 1 Imej</span>`;
             } else {
-                statusEl.innerHTML = `<span class="text-slate-400">Belum Ditetapkan</span>`;
+                statusEl.innerHTML = `<span class="text-slate-400">Tiada Imej</span>`;
             }
         }
 
         function renderRecordsList() {
             const container = document.getElementById('recordsListContainer');
             const query = (document.getElementById('searchInput').value || '').trim().toUpperCase();
+            const filterType = document.getElementById('filterDocType').value;
 
-            const filtered = savedRecords.filter(r => 
-                r.houseNo.includes(query) || 
-                r.buyerName.includes(query) || 
-                r.buyerIc.includes(query)
-            );
+            const filtered = savedRecords.filter(r => {
+                const rType = r.docType || 'PONDOK';
+                if (filterType !== 'ALL' && rType !== filterType) return false;
+
+                if (rType === 'RESIT') {
+                    return (r.resitNo || '').includes(query) || (r.resitFrom || '').includes(query);
+                } else {
+                    return (r.houseNo || '').includes(query) || (r.buyerName || '').includes(query) || (r.buyerIc || '').includes(query);
+                }
+            });
 
             if (filtered.length === 0) {
                 container.innerHTML = `
@@ -941,63 +1349,87 @@
                 return;
             }
 
-            container.innerHTML = filtered.map(r => `
-                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shadow-sm">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-royalnavy text-antiquegold font-bold text-xs px-2.5 py-1 rounded-lg">${r.houseNo}</span>
-                            <h4 class="font-bold text-sm text-royalnavy">${r.buyerName}</h4>
+            container.innerHTML = filtered.map(r => {
+                const isResit = r.docType === 'RESIT';
+                const badgeHTML = isResit 
+                    ? `<span class="bg-purple-700 text-white font-bold text-xs px-2.5 py-1 rounded-lg"><i class="fas fa-receipt mr-1"></i>${r.resitNo}</span>`
+                    : `<span class="bg-royalnavy text-antiquegold font-bold text-xs px-2.5 py-1 rounded-lg"><i class="fas fa-home mr-1"></i>${r.houseNo}</span>`;
+                
+                const titleText = isResit ? r.resitFrom : r.buyerName;
+                const subText = isResit 
+                    ? `Tarikh: ${formatTanggalBM(r.resitDate)} | <strong>${(r.purposes || []).length} Butiran Tujuan</strong>`
+                    : `No. K/P: ${r.buyerIc} | Tel: ${r.buyerPhone} | <strong>${(r.payments || []).length} Kali Bayaran</strong>`;
+
+                return `
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shadow-sm">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                ${badgeHTML}
+                                <h4 class="font-bold text-sm text-royalnavy">${titleText}</h4>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">${subText}</p>
                         </div>
-                        <p class="text-xs text-slate-500 mt-1">
-                            No. K/P: ${r.buyerIc} | Tel: ${r.buyerPhone} | <strong>${r.payments.length} Kali Bayaran</strong>
-                        </p>
-                    </div>
-                    <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200">
-                        <div class="text-left sm:text-right mr-2">
-                            <p class="text-[10px] text-slate-400 uppercase">Jumlah Bayaran</p>
-                            <p class="text-sm font-bold text-emerald-700">RM ${formatWangBulat(r.totalAmount)}</p>
+                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200">
+                            <div class="text-left sm:text-right mr-2">
+                                <p class="text-[10px] text-slate-400 uppercase">Jumlah</p>
+                                <p class="text-sm font-bold text-emerald-700">RM ${formatWangPenuh(r.totalAmount)}</p>
+                            </div>
+                            <button onclick="loadRecordIntoForm('${r.id}')" class="bg-emeraldgreen text-white text-xs font-bold px-3.5 py-2 rounded-lg hover:bg-emeraldhover transition flex items-center gap-1">
+                                <i class="fas fa-eye"></i> Buka / Jana
+                            </button>
+                            <button onclick="deleteRecord('${r.id}')" class="bg-red-50 text-red-600 text-xs font-bold px-3 py-2 rounded-lg hover:bg-red-100 transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
-                        <button onclick="loadRecordIntoForm('${r.id}')" class="bg-emeraldgreen text-white text-xs font-bold px-3.5 py-2 rounded-lg hover:bg-emeraldhover transition flex items-center gap-1">
-                            <i class="fas fa-eye"></i> Buka / Jana
-                        </button>
-                        <button onclick="deleteRecord('${r.id}')" class="bg-red-50 text-red-600 text-xs font-bold px-3 py-2 rounded-lg hover:bg-red-100 transition">
-                            <i class="fas fa-trash"></i>
-                        </button>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function loadRecordIntoForm(recordId) {
             const rec = savedRecords.find(r => r.id === recordId);
             if (!rec) return;
 
-            switchTab('borang');
-            document.getElementById('formModeTitle').textContent = `Kemaskini Rekod Rumah Pondok (${rec.houseNo})`;
-            document.getElementById('editRecordId').value = rec.id;
-            document.getElementById('houseNo').value = rec.houseNo;
-            document.getElementById('buyerName').value = rec.buyerName;
-            document.getElementById('buyerIc').value = rec.buyerIc;
-            document.getElementById('buyerPhone').value = rec.buyerPhone;
-            document.getElementById('sellerName').value = rec.sellerName;
-            document.getElementById('sellerIc').value = rec.sellerIc;
+            if (rec.docType === 'RESIT') {
+                switchTab('resit');
+                document.getElementById('formModeTitleResit').textContent = `Kemaskini Resit Rasmi (${rec.resitNo})`;
+                document.getElementById('editResitId').value = rec.id;
+                document.getElementById('resitNo').value = rec.resitNo;
+                document.getElementById('resitDate').value = rec.resitDate;
+                document.getElementById('resitFrom').value = rec.resitFrom;
+                document.getElementById('resitTotalAmount').value = rec.totalAmount;
+                document.getElementById('resitAmountWords').value = rec.amountWords;
 
-            document.getElementById('paymentContainer').innerHTML = '';
-            paymentRowCount = 0;
-            rec.payments.forEach(p => addPaymentRow(p.date, p.amount, p.note));
+                document.getElementById('resitPurposeContainer').innerHTML = '';
+                purposeRowCount = 0;
+                (rec.purposes || []).forEach(p => addResitPurposeRow(p.desc, p.amount));
+                generateResitRasmi(false);
+            } else {
+                switchTab('pondok');
+                document.getElementById('formModeTitlePondok').textContent = `Kemaskini Rekod Rumah Pondok (${rec.houseNo})`;
+                document.getElementById('editRecordId').value = rec.id;
+                document.getElementById('houseNo').value = rec.houseNo;
+                document.getElementById('buyerName').value = rec.buyerName;
+                document.getElementById('buyerIc').value = rec.buyerIc;
+                document.getElementById('buyerPhone').value = rec.buyerPhone;
+                document.getElementById('sellerName').value = rec.sellerName;
+                document.getElementById('sellerIc').value = rec.sellerIc;
 
-            generateSurat(false);
+                document.getElementById('paymentContainer').innerHTML = '';
+                paymentRowCount = 0;
+                (rec.payments || []).forEach(p => addPaymentRow(p.date, p.amount, p.note));
+                generateSuratPondok(false);
+            }
         }
 
         function deleteRecord(recordId) {
-            if (!confirm('Adakah anda pasti mahu memadam rekod rumah ini?')) return;
+            if (!confirm('Adakah anda pasti mahu memadam rekod ini?')) return;
             savedRecords = savedRecords.filter(r => r.id !== recordId);
             localStorage.setItem(STORAGE_KEYS.RECORDS, JSON.stringify(savedRecords));
             renderRecordsList();
             updateDashboardStats();
         }
 
-        // Sandaran Data (Backup & Restore JSON)
         function exportBackupJSON() {
             if (savedRecords.length === 0) {
                 alert('Tiada rekod untuk disimpan.');
@@ -1008,7 +1440,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Backup_Rumah_Pondok_MMF_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `Backup_Dokumen_MMF_${new Date().toISOString().slice(0,10)}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1026,7 +1458,7 @@
                         savedRecords = imported;
                         localStorage.setItem(STORAGE_KEYS.RECORDS, JSON.stringify(savedRecords));
                         updateDashboardStats();
-                        alert(`Berjaya memuat naik ${imported.length} rekod rumah pondok!`);
+                        alert(`Berjaya memuat naik ${imported.length} rekod dokumen!`);
                         switchTab('rekod');
                     }
                 } catch (err) {
@@ -1036,23 +1468,21 @@
             reader.readAsText(file);
         }
 
+        // =========================================================================
+        // 8. ENJIN CETAK, MUAT TURUN PDF & SHARE WHATSAPP
+        // =========================================================================
         function cetakTerus() {
-            const houseNo = document.getElementById('houseNo').value.trim().toUpperCase();
             const originalTitle = document.title;
-            document.title = `Resit Bayaran Rumah Pondok ${houseNo}`;
+            document.title = currentPdfFileName.replace('.pdf', '');
             window.print();
             setTimeout(() => { document.title = originalTitle; }, 1000);
         }
 
-        // Enjin Penjanaan PDF 1 Halaman A4
         async function buildPDFInstance() {
             if (typeof window.html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
                 throw new Error('Pustaka PDF belum dimuatkan. Sila pastikan sambungan internet aktif.');
             }
 
-            const houseNo = document.getElementById('houseNo').value.trim().toUpperCase();
-            const fileNameStr = `Resit Bayaran Rumah Pondok ${houseNo}.pdf`;
-            
             const element = document.getElementById('surat-container');
             const scaler = document.getElementById('preview-scaler');
             const holder = document.getElementById('preview-holder');
@@ -1089,7 +1519,7 @@
                 });
 
                 pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
-                return { pdf, filename: fileNameStr };
+                return { pdf, filename: currentPdfFileName };
             } finally {
                 scaler.style.transform = savedTransform;
                 holder.style.height = savedHolderHeight;
@@ -1125,29 +1555,39 @@
                 const { pdf, filename } = await buildPDFInstance();
                 const pdfBlob = pdf.output('blob');
                 const file = new File([pdfBlob], filename, { type: 'application/pdf' });
-                const houseNo = document.getElementById('houseNo').value.trim().toUpperCase();
 
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         title: filename,
-                        text: `Berikut adalah ${filename.replace('.pdf', '')}.`,
+                        text: `Berikut adalah ${filename.replace('.pdf', '')} daripada Madrasah Misbah Al-Falah.`,
                         files: [file]
                     });
                 } else {
                     pdf.save(filename);
-                    const text = encodeURIComponent(`Berikut adalah *Resit Bayaran Rumah Pondok ${houseNo}*. (Sila lampirkan fail PDF yang baru dimuat turun)`);
+                    const text = encodeURIComponent(`Berikut adalah *${filename.replace('.pdf', '')}* daripada Madrasah Misbah Al-Falah. (Sila lampirkan fail PDF yang baru dimuat turun)`);
                     window.open(`https://wa.me/?text=${text}`, '_blank');
                 }
             } catch (error) {
-                console.log('Perkongsian dibatalkan atau ralat:', error);
+                console.log('Perkongsian dibatalkan:', error);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = originalHTML;
             }
         }
 
-        function resetBorang(scrollTop = true) {
-            document.getElementById('formModeTitle').textContent = 'Borang Pengesahan Bayaran Baharu';
+        // =========================================================================
+        // 9. FUNGSI RESET BORANG
+        // =========================================================================
+        function buatDokumenBaharu() {
+            if (currentActiveDocType === 'RESIT') {
+                resetBorangResit(true);
+            } else {
+                resetBorangPondok(true);
+            }
+        }
+
+        function resetBorangPondok(scrollTop = true) {
+            document.getElementById('formModeTitlePondok').textContent = 'Borang Pengesahan Bayaran Rumah Pondok';
             document.getElementById('editRecordId').value = '';
             document.getElementById('houseNo').value = '';
             document.getElementById('buyerName').value = '';
@@ -1158,6 +1598,26 @@
             paymentRowCount = 0;
             addPaymentRow();
 
+            hidePreviewArea(scrollTop);
+        }
+
+        function resetBorangResit(scrollTop = true) {
+            document.getElementById('formModeTitleResit').textContent = 'Borang Resit Rasmi Penerimaan Wang';
+            document.getElementById('editResitId').value = '';
+            document.getElementById('resitFrom').value = '';
+            document.getElementById('resitDate').value = new Date().toISOString().slice(0, 10);
+            document.getElementById('resitTotalAmount').value = '';
+            document.getElementById('resitAmountWords').value = '';
+            setAutoReceiptNo();
+
+            document.getElementById('resitPurposeContainer').innerHTML = '';
+            purposeRowCount = 0;
+            addResitPurposeRow('', '');
+
+            hidePreviewArea(scrollTop);
+        }
+
+        function hidePreviewArea(scrollTop) {
             const wrapper = document.getElementById('surat-wrapper');
             wrapper.classList.add('hidden');
             wrapper.classList.remove('flex');
@@ -1165,7 +1625,6 @@
             
             if (scrollTop) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                document.getElementById('houseNo').focus();
             }
         }
     </script>
