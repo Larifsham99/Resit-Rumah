@@ -2,8 +2,20 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pengurusan Rumah Pondok - Madrasah Misbah Al-Falah</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>e-Pondok MMF - Pengurusan Rumah Pondok</title>
+    
+    <!-- Meta Tag PWA Penuh -->
+    <meta name="theme-color" content="#0A192F">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="e-Pondok MMF">
+    <meta name="description" content="Sistem Pengesahan Bayaran Lengkap Rumah Pondok Madrasah Misbah Al-Falah">
+    
+    <!-- Ikon PWA & Manifest Dinamik (Dijana melalui JS) -->
+    <link rel="icon" id="appFavicon" type="image/png">
+    <link rel="apple-touch-icon" id="appleTouchIcon">
+    <link rel="manifest" id="pwaManifest">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -92,19 +104,26 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen font-sans text-slate-800 pb-16">
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800 pb-16 select-none sm:select-auto">
 
-    <!-- NAVBAR UTAMA -->
+    <!-- NAVBAR UTAMA & BUTANG INSTALL PWA -->
     <header class="bg-royalnavy text-white shadow-lg sticky top-0 z-40 no-print border-b-2 border-antiquegold">
         <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-navylight border border-antiquegold flex items-center justify-center text-antiquegold shadow">
-                    <i class="fas fa-mosque text-lg"></i>
+            <div class="flex items-center justify-between w-full sm:w-auto">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-navylight border border-antiquegold flex items-center justify-center text-antiquegold shadow">
+                        <i class="fas fa-mosque text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base sm:text-lg tracking-wide text-white leading-tight">MADRASAH MISBAH AL-FALAH</h1>
+                        <p class="text-xs text-antiquegold font-medium">Sistem Pengesahan Bayaran Rumah Pondok</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="font-bold text-base sm:text-lg tracking-wide text-white leading-tight">MADRASAH MISBAH AL-FALAH</h1>
-                    <p class="text-xs text-antiquegold font-medium">Sistem Pengesahan Bayaran Rumah Pondok</p>
-                </div>
+
+                <!-- Butang Install Aplikasi (Muncul automatik apabila sedia) -->
+                <button id="btnInstallPWA" onclick="installPWA()" class="hidden bg-antiquegold text-royalnavy font-bold text-xs px-3 py-2 rounded-xl shadow-md hover:bg-goldhover transition items-center gap-1.5 animate-pulse">
+                    <i class="fas fa-download"></i> Install App
+                </button>
             </div>
 
             <!-- Navigasi Tab -->
@@ -451,7 +470,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT PENGURUSAN APLIKASI PENUH -->
+    <!-- SCRIPT PENGURUSAN APLIKASI & PWA PENUH -->
     <script>
         const STORAGE_KEYS = {
             RECORDS: 'mmf_pondok_records_v1',
@@ -473,9 +492,109 @@
         let uploadedSignatureDataUrl = ""; 
         let uploadedLetterheadDataUrl = "";
         let savedRecords = [];
+        let deferredInstallPrompt = null;
+
+        // =========================================================================
+        // 1. PENJANA IKON & MANIFEST PWA DINAMIK (TIADA FAIL GAMBAR LUAR DIPERLUKAN)
+        // =========================================================================
+        function setupPWA() {
+            // Lukis ikon rasmi aplikasi (512x512) secara automatik atas Canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Latar Belakang Royal Navy
+            ctx.fillStyle = '#0A192F';
+            ctx.fillRect(0, 0, 512, 512);
+
+            // Bingkai Bulatan Emas (Antique Gold)
+            ctx.strokeStyle = '#D4AF37';
+            ctx.lineWidth = 18;
+            ctx.strokeRect(28, 28, 456, 456);
+
+            // Lukis Kubah Masjid Emas
+            ctx.fillStyle = '#D4AF37';
+            ctx.beginPath();
+            ctx.arc(256, 230, 95, Math.PI, 0, false);
+            ctx.fill();
+
+            // Tiang Menara & Tapak Kubah
+            ctx.fillRect(161, 230, 190, 22);
+            ctx.fillStyle = '#10B981'; // Aksen Emerald Green
+            ctx.fillRect(140, 262, 232, 14);
+
+            // Bulan Sabit / Kemuncak Kubah
+            ctx.fillStyle = '#D4AF37';
+            ctx.fillRect(251, 95, 10, 45);
+            ctx.beginPath();
+            ctx.arc(256, 90, 14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Teks Singkatan "MMF" & "PONDOK"
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 78px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('MMF', 256, 365);
+
+            ctx.fillStyle = '#D4AF37';
+            ctx.font = 'bold 34px Arial';
+            ctx.fillText('e-PONDOK', 256, 425);
+
+            const iconDataUrl = canvas.toDataURL('image/png');
+            document.getElementById('appFavicon').href = iconDataUrl;
+            document.getElementById('appleTouchIcon').href = iconDataUrl;
+
+            // Bina Web App Manifest secara dinamik
+            const manifestObj = {
+                name: "Sistem Pengurusan Rumah Pondok MMF",
+                short_name: "e-Pondok MMF",
+                description: "Aplikasi Rasmi Pengesahan Bayaran Lengkap Rumah Pondok Madrasah Misbah Al-Falah",
+                start_url: window.location.href,
+                scope: "./",
+                display: "standalone",
+                orientation: "portrait",
+                background_color: "#0A192F",
+                theme_color: "#0A192F",
+                icons: [
+                    { src: iconDataUrl, sizes: "192x192", type: "image/png", purpose: "any maskable" },
+                    { src: iconDataUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
+                ]
+            };
+
+            const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+            document.getElementById('pwaManifest').href = URL.createObjectURL(manifestBlob);
+
+            // Daftar Service Worker (Untuk GitHub Pages / HTTPS)
+            if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
+                navigator.serviceWorker.register('./sw.js').catch(err => {
+                    console.log('Info Service Worker:', err.message);
+                });
+            }
+        }
+
+        // Tangkap acara pemasangan PWA pada Android Chrome
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            const btn = document.getElementById('btnInstallPWA');
+            btn.classList.remove('hidden');
+            btn.classList.add('flex');
+        });
+
+        async function installPWA() {
+            if (!deferredInstallPrompt) return;
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            if (outcome === 'accepted') {
+                document.getElementById('btnInstallPWA').classList.add('hidden');
+            }
+            deferredInstallPrompt = null;
+        }
 
         // Inisialisasi Aplikasi
         window.onload = function() {
+            setupPWA();
             loadSavedAssetsFromStorage();
             loadRecordsFromStorage();
             addPaymentRow();
